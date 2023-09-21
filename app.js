@@ -11,17 +11,35 @@ let app = new PIXI.Application({
 );
 document.body.appendChild(app.view);
 
+console.log("foo");
+
 // Create a new texture
 let texture = PIXI.Texture.from('https://pixijs.io/examples/examples/assets/bunny.png');
 
-// Create a 5x5 grid of bunnies
-for (let i = 0; i < 25; i++) {
-    let bunny = new PIXI.Sprite(texture);
-    bunny.anchor.set(0.5);
-    bunny.x = (i % 5) * 40;
-    bunny.y = Math.floor(i / 5) * 40;
-    app.stage.addChild(bunny);
+const xFieldCnt = 7;
+const yFieldCnt = 5;
+const xfieldsize = 50;
+const yfieldsize = 50;
+
+function place(x, y, obj){
+  obj.anchor(0.5,0.5);
+  console.log("Stain " + x + " coords"+ app.stage.width / (xFieldCnt * 2) * (2 * x + 1));
+  obj.x = app.stage.width / (xFieldCnt * 2) * (2 * x + 1) ;
+  obj.y = app.stage.width / (yFieldCnt * 2) * (2 * y + 1) ;
 }
+
+let stains;
+
+
+for (let i = 0; i < 7; i++) {
+  for (let j = 0; j < 5; j++) {
+     let stain = new PIXI.Sprite(texture);
+     place(i,j,stain);
+     stains.add(stain);
+     app.stage.addChild(stain);
+    }
+}
+
 
 // Move container to the center
 app.stage.x = app.renderer.width / 2;
